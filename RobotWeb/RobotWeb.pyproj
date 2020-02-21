@@ -1,0 +1,205 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <Name>RobotWeb</Name>
+    <RootNamespace>RobotWeb</RootNamespace>
+    <InterpreterId>Global|PythonCore|3.7</InterpreterId>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>1d4b4709-4cc3-49be-b5d5-e4b4c97f06e2</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <ProjectTypeGuids>{5F0BE9CA-D677-4A4D-8806-6076C0FAAD37};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <StartupFile>manage.py</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <LaunchProvider>Django launcher</LaunchProvider>
+    <DjangoSettingsModule>RobotWeb.settings</DjangoSettingsModule>
+    <WebBrowserUrl>http://localhost</WebBrowserUrl>
+    <OutputPath>.</OutputPath>
+    <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="manage.py" />
+    <Compile Include="RobotWeb\bot\bot.py" />
+    <Compile Include="RobotWeb\bot\__init__.py" />
+    <Compile Include="RobotWeb\driver\back_wheels.py" />
+    <Compile Include="RobotWeb\driver\camera.py" />
+    <Compile Include="RobotWeb\driver\filedb.py" />
+    <Compile Include="RobotWeb\driver\front_wheels.py" />
+    <Compile Include="RobotWeb\driver\PCF8591.py" />
+    <Compile Include="RobotWeb\driver\SunFounder_PCA9685\PCA9685.py" />
+    <Compile Include="RobotWeb\driver\SunFounder_PCA9685\Servo.py" />
+    <Compile Include="RobotWeb\driver\SunFounder_PCA9685\__init__.py" />
+    <Compile Include="RobotWeb\driver\SunFounder_TB6612\example\speed_increase.py" />
+    <Compile Include="RobotWeb\driver\SunFounder_TB6612\TB6612.py" />
+    <Compile Include="RobotWeb\driver\SunFounder_TB6612\__init__.py" />
+    <Compile Include="RobotWeb\driver\__init__.py" />
+    <Compile Include="RobotWeb\stream\lanefilter.py" />
+    <Compile Include="RobotWeb\stream\lanefilter2.py" />
+    <Compile Include="RobotWeb\stream\lanefilter3.py" />
+    <Compile Include="RobotWeb\stream\stream.py" />
+    <Compile Include="RobotWeb\stream\__init__.py" />
+    <Compile Include="RobotWeb\templates\admin.py" />
+    <Compile Include="RobotWeb\templates\apps.py" />
+    <Compile Include="RobotWeb\templates\migrations\__init__.py" />
+    <Compile Include="RobotWeb\templates\models.py" />
+    <Compile Include="RobotWeb\templates\tests.py" />
+    <Compile Include="RobotWeb\templates\views.py" />
+    <Compile Include="RobotWeb\templates\__init__.py" />
+    <Compile Include="RobotWeb\views.py" />
+    <Compile Include="RobotWeb\__init__.py" />
+    <Compile Include="RobotWeb\settings.py" />
+    <Compile Include="RobotWeb\urls.py" />
+    <Compile Include="RobotWeb\wsgi.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="requirements.txt" />
+    <Content Include="RobotWeb\bot\lanefilter.pyc" />
+    <Content Include="RobotWeb\bot\lanefilter2.pyc" />
+    <Content Include="RobotWeb\bot\lanefilter3.pyc" />
+    <Content Include="RobotWeb\bot\__init__.pyc" />
+    <Content Include="RobotWeb\bot\__pycache__\bot.cpython-35.pyc" />
+    <Content Include="RobotWeb\bot\__pycache__\lanefilter.cpython-35.pyc" />
+    <Content Include="RobotWeb\bot\__pycache__\lanefilter2.cpython-35.pyc" />
+    <Content Include="RobotWeb\bot\__pycache__\lanefilter3.cpython-35.pyc" />
+    <Content Include="RobotWeb\bot\__pycache__\__init__.cpython-35.pyc" />
+    <Content Include="RobotWeb\config" />
+    <Content Include="RobotWeb\driver\camera.pyc" />
+    <Content Include="RobotWeb\driver\main.pyc" />
+    <Content Include="RobotWeb\driver\stream.pyc" />
+    <Content Include="RobotWeb\driver\SunFounder_PCA9685\.git" />
+    <Content Include="RobotWeb\driver\SunFounder_PCA9685\.gitignore" />
+    <Content Include="RobotWeb\driver\SunFounder_PCA9685\LICENSE" />
+    <Content Include="RobotWeb\driver\SunFounder_PCA9685\README.md" />
+    <Content Include="RobotWeb\driver\SunFounder_PCA9685\show" />
+    <Content Include="RobotWeb\driver\SunFounder_PCA9685\__pycache__\PCA9685.cpython-35.pyc" />
+    <Content Include="RobotWeb\driver\SunFounder_PCA9685\__pycache__\Servo.cpython-35.pyc" />
+    <Content Include="RobotWeb\driver\SunFounder_PCA9685\__pycache__\__init__.cpython-35.pyc" />
+    <Content Include="RobotWeb\driver\SunFounder_TB6612\.gitignore" />
+    <Content Include="RobotWeb\driver\SunFounder_TB6612\LICENSE" />
+    <Content Include="RobotWeb\driver\SunFounder_TB6612\README.md" />
+    <Content Include="RobotWeb\driver\SunFounder_TB6612\show" />
+    <Content Include="RobotWeb\driver\SunFounder_TB6612\__pycache__\TB6612.cpython-35.pyc" />
+    <Content Include="RobotWeb\driver\SunFounder_TB6612\__pycache__\__init__.cpython-35.pyc" />
+    <Content Include="RobotWeb\driver\__init__.pyc" />
+    <Content Include="RobotWeb\driver\__pycache__\back_wheels.cpython-35.pyc" />
+    <Content Include="RobotWeb\driver\__pycache__\camera.cpython-35.pyc" />
+    <Content Include="RobotWeb\driver\__pycache__\filedb.cpython-35.pyc" />
+    <Content Include="RobotWeb\driver\__pycache__\front_wheels.cpython-35.pyc" />
+    <Content Include="RobotWeb\driver\__pycache__\main.cpython-35.pyc" />
+    <Content Include="RobotWeb\driver\__pycache__\PCF8591.cpython-35.pyc" />
+    <Content Include="RobotWeb\driver\__pycache__\stream.cpython-35.pyc" />
+    <Content Include="RobotWeb\driver\__pycache__\__init__.cpython-35.pyc" />
+    <Content Include="RobotWeb\stream\__pycache__\lanefilter.cpython-35.pyc" />
+    <Content Include="RobotWeb\stream\__pycache__\lanefilter2.cpython-35.pyc" />
+    <Content Include="RobotWeb\stream\__pycache__\lanefilter3.cpython-35.pyc" />
+    <Content Include="RobotWeb\stream\__pycache__\stream.cpython-35.pyc" />
+    <Content Include="RobotWeb\stream\__pycache__\__init__.cpython-35.pyc" />
+    <Content Include="RobotWeb\templates\admin.pyc" />
+    <Content Include="RobotWeb\templates\migrations\__init__.pyc" />
+    <Content Include="RobotWeb\templates\migrations\__pycache__\__init__.cpython-35.pyc" />
+    <Content Include="RobotWeb\templates\models.pyc" />
+    <Content Include="RobotWeb\templates\templates\base.html" />
+    <Content Include="RobotWeb\templates\templates\cali.html" />
+    <Content Include="RobotWeb\templates\templates\run.html" />
+    <Content Include="RobotWeb\templates\__init__.pyc" />
+    <Content Include="RobotWeb\templates\__pycache__\admin.cpython-35.pyc" />
+    <Content Include="RobotWeb\templates\__pycache__\models.cpython-35.pyc" />
+    <Content Include="RobotWeb\templates\__pycache__\__init__.cpython-35.pyc" />
+    <Content Include="screenshots\20190407130340.jpg" />
+    <Content Include="screenshots\20190407131046.jpg" />
+    <Content Include="screenshots\20190407131049.jpg" />
+    <Content Include="screenshots\20190407131054.jpg" />
+    <Content Include="screenshots\20190407131058.jpg" />
+    <Content Include="screenshots\2YSZT5~1.JPG" />
+    <Content Include="static\back_unpressed.png" />
+    <Content Include="static\cancle_unpressed.png" />
+    <Content Include="static\favicon.ico" />
+    <Content Include="static\main_page.jpg" />
+    <Content Include="static\ok_unpressed.png" />
+    <Content Include="static\settings_unpressed.png" />
+    <Content Include="static\sunfounder_logo_rgb_300.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="RobotWeb\" />
+    <Folder Include="RobotWeb\bot\" />
+    <Folder Include="RobotWeb\bot\__pycache__\" />
+    <Folder Include="RobotWeb\driver\" />
+    <Folder Include="RobotWeb\driver\SunFounder_PCA9685\" />
+    <Folder Include="RobotWeb\driver\SunFounder_PCA9685\__pycache__\" />
+    <Folder Include="RobotWeb\driver\SunFounder_TB6612\" />
+    <Folder Include="RobotWeb\driver\SunFounder_TB6612\example\" />
+    <Folder Include="RobotWeb\driver\SunFounder_TB6612\__pycache__\" />
+    <Folder Include="RobotWeb\driver\__pycache__\" />
+    <Folder Include="RobotWeb\stream\" />
+    <Folder Include="RobotWeb\stream\__pycache__\" />
+    <Folder Include="RobotWeb\templates\" />
+    <Folder Include="RobotWeb\templates\migrations\" />
+    <Folder Include="RobotWeb\templates\migrations\__pycache__\" />
+    <Folder Include="RobotWeb\templates\templates\" />
+    <Folder Include="RobotWeb\templates\__pycache__\" />
+    <Folder Include="screenshots\" />
+    <Folder Include="static\" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="Global|PythonCore|3.7" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RobotApp\RobotApp.vcxproj">
+      <Name>RobotApp</Name>
+      <Project>{e80b1c1c-587e-45e6-9989-01ffc4edf141}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Django.targets" />
+  <!-- Specify pre- and post-build commands in the BeforeBuild and 
+       AfterBuild targets below. -->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <AutoAssignPort>True</AutoAssignPort>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
