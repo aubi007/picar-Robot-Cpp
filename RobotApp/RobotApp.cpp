@@ -4,10 +4,47 @@
 #include <stdio.h>
 #include <time.h>
 #include "Stream.h"
+#include "Servo.h"
+
+#define _BUS_NUMBER 1
+#define _ADDRESS    0x40
 
 struct Frame {
     std::vector<uchar> m_data;          // JPEG image as uchar vector (python list)
     clock_t m_ts;                       // frame capture timestamp
+};
+
+class Config {
+public:
+    int getFwChannel() { return m_fwChannel; };
+    int getFwOffset() { return m_fwOffset; };
+    int getFwMinAngle() { return m_fwMinAngle; };
+    int getFwMaxAngle() { return m_fwMaxAngle; };
+
+    int getCamPanChannel() { return m_camPanChannel; };
+    int getCamPanOffset() { return m_camPanOffset; };
+    int getCamPanMinAngle() { return m_camPanMinAngle; };
+    int getCamPanMaxAngle() { return m_camPanMaxAngle; };
+
+    int getCamTiltChannel() { return m_camTiltChannel; };
+    int getCamTiltOffset() { return m_camTiltOffset; };
+    int getCamTiltMinAngle() { return m_camTiltMinAngle; };
+    int getCamTiltMaxAngle() { return m_camTiltMaxAngle; };
+private:
+    int m_fwChannel = 0;            // front wheels servo channel
+    int m_fwOffset = 90;            // front wheels servo offset
+    int m_fwMinAngle = 50;          // front wheels minimal angle
+    int m_fwMaxAngle = 130;         // front wheels maximal angle
+
+    int m_camPanChannel = 1;            // camera pan servo channel
+    int m_camPanOffset = 90;            // camera pan servo offset
+    int m_camPanMinAngle = 50;          // camera pan minimal angle
+    int m_camPanMaxAngle = 130;         // camera pan maximal angle
+
+    int m_camTiltChannel = 2;            // camera tilt servo channel
+    int m_camTiltOffset = 90;            // camera tilt servo offset
+    int m_camTiltMinAngle = 50;          // camera tilt minimal angle
+    int m_camTiltMaxAngle = 130;         // camera tilt maximal angle
 };
 
 class RobotApp {
@@ -25,8 +62,13 @@ public:
     void test(int s);                   // runs selected test script
 
 private:
+    Config config;                      // robot config
     Stream m_stream;                    // video stream class
     RobotStatus m_status;               // robot status structure
+    Servo *m_fw;                        // front wheels servo
+    Servo *m_camPan;                    // camera pan servo
+    Servo *m_camTilt;                   // camera tilt servo
+
 };
 
 
@@ -38,11 +80,27 @@ RobotApp::RobotApp() {
     m_status.fw_pos = 0;
     m_status.cam_pan = 0;
     m_status.cam_tilt = 0;
+
+    // init front wheels servo
+    m_fw = new Servo(_BUS_NUMBER, _ADDRESS, config.getFwChannel(), config.getFwOffset(), config.getFwMinAngle(), config.getFwMaxAngle());
+    m_fw->write(0);
+
+    // init camera pan servo
+    m_camPan = new Servo(_BUS_NUMBER, _ADDRESS, config.getCamPanChannel(), config.getCamPanOffset(), config.getCamPanMinAngle(), config.getCamPanMaxAngle());
+    m_camPan->write(0);
+
+    // init camera tilt
+    m_camTilt = new Servo(_BUS_NUMBER, _ADDRESS, config.getCamTiltChannel(), config.getCamTiltOffset(), config.getCamTiltMinAngle(), config.getCamTiltMaxAngle());
+    m_camTilt->write(0);
 }
 
 /* Destructor */
 RobotApp::~RobotApp() {
     std::cout << ">>> RobotApp destroy\n";
+
+    if (m_fw) delete m_fw;
+    if (m_camPan) delete m_camPan;
+    if (m_camTilt) delete m_camTilt;
 }
 
 Frame RobotApp::getFrame()
@@ -82,6 +140,7 @@ void RobotApp::setSpeed(int s) {
 void RobotApp::setFWPos(int s) {
     if ((s >= -40) && (s <= 40)) {
         m_status.fw_pos = s;
+        m_fw->write(s);
     }
     else {
         std::cerr << "### setFWPos() invalid value <" << s << ">\n";
@@ -98,6 +157,7 @@ void RobotApp::camReady() {
 void RobotApp::setCamPan(int s) {
     if ((s >= -40) && (s <= 40)) {
         m_status.cam_pan = s;
+        m_camPan->write(s);
     }
     else {
         std::cerr << "### setCamPan() invalid value <" << s << ">\n";
@@ -108,6 +168,7 @@ void RobotApp::setCamPan(int s) {
 void RobotApp::setCamTilt(int s) {
     if ((s >= -40) && (s <= 40)) {
         m_status.cam_tilt = s;
+        m_camTilt->write(s);
     }
     else {
         std::cerr << "### setCamTilt() invalid value <" << s << ">\n";
