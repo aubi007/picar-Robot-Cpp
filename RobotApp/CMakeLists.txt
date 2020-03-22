@@ -31,6 +31,8 @@ include_directories(${pybind11_INCLUDE_DIR})
 SET(SOURCES
   ${CMAKE_CURRENT_DIR}RobotApp.cpp
   ${CMAKE_CURRENT_DIR}Stream.cpp
+  ${CMAKE_CURRENT_DIR}PCA9685.cpp
+  ${CMAKE_CURRENT_DIR}Servo.cpp
 )
 
 #**************************************************************************************************

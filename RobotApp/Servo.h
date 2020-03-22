@@ -13,6 +13,9 @@ public:
 	~Servo();
 
 	void write(int angle);		// writes specified angle to the servo
+#ifdef __linux__ 
+	PCA9685* m_pwm;			// PWM driver
+#endif
 
 private:
 	int m_minAngle;			// minimal servo angle, default 0
@@ -22,9 +25,7 @@ private:
 	int m_address;			// bus address
 	int m_channel;			// servo channel
 	int m_offset;			// angle offset
-#ifdef __linux__ 
-	PCA9685* m_pwm;			// PWM driver
-#endif
+
 
 	int angleToAnalog(int angle);		// calculates analog value for specified angle applying min angle and max angle to the argument
 };

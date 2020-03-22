@@ -61,6 +61,7 @@ PCA9685::~PCA9685() {
 }
 //! Sets PCA9685 mode to 00
 void PCA9685::reset() {
+	printf("### PCA Reset\n");
 	int fd = openfd();
 	if (fd != -1) {
 		write_byte(fd, MODE1, 0x00); //Normal mode
@@ -81,11 +82,12 @@ void PCA9685::setPWMFreq(int freq) {
 
  		uint8_t oldmode = read_byte(fd, MODE1);
     	uint8_t newmode = (oldmode & 0x7F) | 0x10;    //sleep
-    write_byte(fd, MODE1, newmode);        // go to sleep
-    write_byte(fd, PRE_SCALE, prescale);
-    write_byte(fd, MODE1, oldmode);
-    usleep(10*1000);
-    write_byte(fd, MODE1, oldmode | 0x80);
+
+		write_byte(fd, MODE1, newmode);        // go to sleep
+		write_byte(fd, PRE_SCALE, prescale);
+		write_byte(fd, MODE1, oldmode);
+		usleep(10*1000);
+		write_byte(fd, MODE1, oldmode | 0x80);
 
 		close(fd);
 	}

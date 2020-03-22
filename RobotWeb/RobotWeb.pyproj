@@ -4,6 +4,7 @@
     <Name>RobotWeb</Name>
     <RootNamespace>RobotWeb</RootNamespace>
     <InterpreterId>Global|PythonCore|3.7</InterpreterId>
+    <TestFramework>Pytest</TestFramework>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>

@@ -78,7 +78,7 @@ void Servo::write(int angle) {
 
 
 int testServo () {
-	Servo servo(1, 0x40, 1, 50, 130, 0);
+	Servo servo(1, 0x40, 0, 0, 50, 130);
 
 	printf("Testing testing\n");
 	servo.write(90);
@@ -90,5 +90,10 @@ int testServo () {
 		usleep(1000 * 1000);
 #endif
 	}
+
+	servo.write(90);
+
+	printf("turning off servo\n");
+	servo.m_pwm->setPWM(0, 0, 4096);
 	return 0;
 } 

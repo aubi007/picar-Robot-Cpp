@@ -18,6 +18,7 @@
     <None Include="setup.py">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="readme.md" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RobotApp.cpp">
@@ -26,12 +27,24 @@
     <ClCompile Include="Stream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PCA9685.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Servo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stream.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RobotApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PCA9685.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Servo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

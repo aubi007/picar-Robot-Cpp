@@ -98,9 +98,18 @@ RobotApp::RobotApp() {
 RobotApp::~RobotApp() {
     std::cout << ">>> RobotApp destroy\n";
 
-    if (m_fw) delete m_fw;
-    if (m_camPan) delete m_camPan;
-    if (m_camTilt) delete m_camTilt;
+    if (m_fw) {
+        m_fw->write(0);
+        delete m_fw;
+    }
+    if (m_camPan) {
+        m_camPan->write(0);
+        delete m_camPan;
+    }
+    if (m_camTilt) {
+        m_camTilt->write(0);
+        delete m_camTilt;
+    }
 }
 
 Frame RobotApp::getFrame()
