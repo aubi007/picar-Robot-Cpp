@@ -22,8 +22,10 @@ Full version
 
 MS Windows setup:
 - install MS Visual Studio Communiy 2019, include Python development (Python 3 32-bit and 64-bit) and Desktop Development with C++
-- setup openCV 4.x
-- setup Dhango 2.x
+- Within python environment tab do the following:
+  - upgrade pip 
+  - setup openCV 4.x
+  - setup Dhango 2.x  (pip install django<3.0.0)
 
 Raspberry Pi setup:
-openCV 4.1 - using slightly adjusted tutorial from https://www.pyimagesearch.com/2018/09/26/install-opencv-4-on-your-raspberry-pi/
+* openCV 4.1 - using slightly adjusted tutorial from https://www.pyimagesearch.com/2018/09/26/install-opencv-4-on-your-raspberry-pi/
