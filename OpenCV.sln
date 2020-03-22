@@ -7,8 +7,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tutorial", "ConsoleApplicat
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PythonTest", "PythonTest\PythonTest.pyproj", "{C9C790E3-4C1F-4824-8775-225D2DEDAA76}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "superfastcode", "superfastcode\superfastcode.vcxproj", "{7C4FD1C2-341A-4186-AC93-F99DA774B7C9}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "superfastcode2", "superfastcode2\superfastcode2.vcxproj", "{3587EB1B-8D0F-4DE2-9BAD-B2E6E6753280}"
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "RobotWeb", "RobotWeb\RobotWeb.pyproj", "{1D4B4709-4CC3-49BE-B5D5-E4B4C97F06E2}"
@@ -41,16 +39,6 @@ Global
 		{C9C790E3-4C1F-4824-8775-225D2DEDAA76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9C790E3-4C1F-4824-8775-225D2DEDAA76}.Release|x64.ActiveCfg = Release|Any CPU
 		{C9C790E3-4C1F-4824-8775-225D2DEDAA76}.Release|x86.ActiveCfg = Release|Any CPU
-		{7C4FD1C2-341A-4186-AC93-F99DA774B7C9}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{7C4FD1C2-341A-4186-AC93-F99DA774B7C9}.Debug|x64.ActiveCfg = Debug|x64
-		{7C4FD1C2-341A-4186-AC93-F99DA774B7C9}.Debug|x64.Build.0 = Debug|x64
-		{7C4FD1C2-341A-4186-AC93-F99DA774B7C9}.Debug|x86.ActiveCfg = Debug|Win32
-		{7C4FD1C2-341A-4186-AC93-F99DA774B7C9}.Debug|x86.Build.0 = Debug|Win32
-		{7C4FD1C2-341A-4186-AC93-F99DA774B7C9}.Release|Any CPU.ActiveCfg = Release|Win32
-		{7C4FD1C2-341A-4186-AC93-F99DA774B7C9}.Release|x64.ActiveCfg = Release|x64
-		{7C4FD1C2-341A-4186-AC93-F99DA774B7C9}.Release|x64.Build.0 = Release|x64
-		{7C4FD1C2-341A-4186-AC93-F99DA774B7C9}.Release|x86.ActiveCfg = Release|Win32
-		{7C4FD1C2-341A-4186-AC93-F99DA774B7C9}.Release|x86.Build.0 = Release|Win32
 		{3587EB1B-8D0F-4DE2-9BAD-B2E6E6753280}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{3587EB1B-8D0F-4DE2-9BAD-B2E6E6753280}.Debug|x64.ActiveCfg = Debug|x64
 		{3587EB1B-8D0F-4DE2-9BAD-B2E6E6753280}.Debug|x64.Build.0 = Debug|x64

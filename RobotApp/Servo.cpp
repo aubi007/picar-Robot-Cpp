@@ -94,6 +94,8 @@ int testServo () {
 	servo.write(90);
 
 	printf("turning off servo\n");
+#ifdef __linux__ 
 	servo.m_pwm->setPWM(0, 0, 4096);
+#endif
 	return 0;
 } 
