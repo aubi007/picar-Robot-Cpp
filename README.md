@@ -9,15 +9,15 @@ The aim is to:
 * Use python only for the web server, providing picar's vide ostream and passing user's input to the bot
 * Use C++ to implement all the sensor and servo manipulation and the bot logic
 
-video stream analysis utilizes openCV 4
+Video stream analysis utilizes openCV 4
 
-debug version
+Debug version
 - builds and debugs on Windows using MS Visual studio Community 2019
 - pyhton web server works as well as video streaming and analysis
 - picar specific HW (servos) not available :)
 
-full version
-- builds on arduino using cmake and make
+Full version
+- builds on Raspberry PI using cmake and make
 - should work
 
 MS Windows setup:
