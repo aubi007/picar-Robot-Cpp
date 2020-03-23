@@ -24,6 +24,7 @@ MS Windows setup:
 - Install openCV 4.x
   - download from https://opencv.org/releases/ 
   - unpack, f.eg. to d:\Work\opencv\
+  - add opencv to you system PATH variable (D:\Work\opencv\build\x64\vc15\bin\)
 - Install MS Visual Studio Communiy 2019, include Python development (Python 3 32-bit and 64-bit) and Desktop Development with C++
 - Within python environment tab do the following:
   - upgrade pip 
