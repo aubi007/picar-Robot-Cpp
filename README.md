@@ -4,6 +4,7 @@ The project goal is to create a basis for autonomous drive for a SunFounder's pi
 
 The vendor's python tutorial was used as a base for the software
 python/django web server to provide a remote control for the piCar
+PCA9685 C++ library forked from https://github.com/TeraHz/PCA9685
 
 The aim is to:
 * Use python only for the web server, providing picar's vide ostream and passing user's input to the bot
