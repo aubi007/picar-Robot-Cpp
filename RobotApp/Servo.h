@@ -13,6 +13,7 @@ public:
 	~Servo();
 
 	void write(int angle);		// writes specified angle to the servo
+	void setOffset(int offset);	// adjusts the offset
 #ifdef __linux__ 
 	PCA9685* m_pwm;			// PWM driver
 #endif

@@ -21,7 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home),
     path('run/', views.run),
-    #path('cali/', views.cali),
+    path('cali/', views.cali),
     path('stream/', views.livefe),
     path('connection_test/', views.connection_test),
 ]

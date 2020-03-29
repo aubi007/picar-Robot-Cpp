@@ -96,63 +96,42 @@ def run(request):
 	return render_to_response("run.html")
 			
 
-	
 def cali(request):
+	if 'action' in request.GET:
+		action = request.GET['action']
+#		print ('"%s" command received' % action)
+		# ========== Calibration init =========
+		if action == 'calibration':
+			bot.calibration()
+		# ========== Calibration confirmation =========
+		elif action == 'calibration_ok':
+			bot.calibration_ok()
+
+		# ========== Camera calibration =========
+		elif action == 'camcaliup':
+			bot.calibration_camup()
+		elif action == 'camcalidown':
+			bot.calibration_camdown()
+		elif action == 'camcalileft':
+			bot.calibration_camleft()
+		elif action == 'camcaliright':
+			bot.calibration_camright()
+
+		# ========= Front wheel calibration ===========
+		elif action == 'fwcalileft':
+			bot.calibration_fwleft()
+		elif action == 'fwcaliright':
+			bot.calibration_fwright()
+
+		# ========= Back wheel calibration ===========
+		elif action == 'bwcalileft':
+			bot.calibration_bwleft()
+		elif action == 'bwcaliright':
+			bot.calibration_bwright()
+
+		else:
+			print ('command error, error command "%s" received' % action)
 	return render_to_response("cali.html")
-
-#	if 'action' in request.GET:
-#		action = request.GET['action']
-#		# ========== Camera calibration =========
-#		if action == 'camcali':
-#			print ('"%s" command received' % action)
-#			cam.calibration()
-#		elif action == 'camcaliup':
-#			print ('"%s" command received' % action)
-#			cam.cali_up()
-#		elif action == 'camcalidown':
-#			print ('"%s" command received' % action)
-#			cam.cali_down()
-#		elif action == 'camcalileft':
-#			print ('"%s" command received' % action)
-#			cam.cali_left()
-#		elif action == 'camcaliright':
-#			print ('"%s" command received' % action)
-#			cam.cali_right()
-#		elif action == 'camcaliok':
-#			print ('"%s" command received' % action)
-#			cam.cali_ok()
-
-#		# ========= Front wheel cali ===========
-#		elif action == 'fwcali':
-#			print ('"%s" command received' % action)
-#			fw.calibration()
-#		elif action == 'fwcalileft':
-#			print ('"%s" command received' % action)
-#			fw.cali_left()
-#		elif action == 'fwcaliright':
-#			print ('"%s" command received' % action)
-#			fw.cali_right()
-#		elif action == 'fwcaliok':
-#			print ('"%s" command received' % action)
-#			fw.cali_ok()
-
-#		# ========= Back wheel cali ===========
-#		elif action == 'bwcali':
-#			print ('"%s" command received' % action)
-#			bw.calibration()
-#		elif action == 'bwcalileft':
-#			print ('"%s" command received' % action)
-#			bw.cali_left()
-#		elif action == 'bwcaliright':
-#			print ('"%s" command received' % action)
-#			bw.cali_right()
-#		elif action == 'bwcaliok':
-#			print ('"%s" command received' % action)
-#			bw.cali_ok()
-#		else:
-#			print ('command error, error command "%s" received' % action)
-
-
 
 def connection_test(request):
 	return HttpResponse('OK')

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <time.h>
+#include "Config.h"
 #include "Stream.h"
 #include "Servo.h"
 #include "Motor.h"
@@ -18,55 +19,6 @@ struct Frame {
     clock_t m_ts;                       // frame capture timestamp
 };
 
-class Config {
-public:
-    int getFwChannel() { return m_fwChannel; };
-    int getFwOffset() { return m_fwOffset; };
-    int getFwMinAngle() { return m_fwMinAngle; };
-    int getFwMaxAngle() { return m_fwMaxAngle; };
-
-    int getCamPanChannel() { return m_camPanChannel; };
-    int getCamPanOffset() { return m_camPanOffset; };
-    int getCamPanMinAngle() { return m_camPanMinAngle; };
-    int getCamPanMaxAngle() { return m_camPanMaxAngle; };
-
-    int getCamTiltChannel() { return m_camTiltChannel; };
-    int getCamTiltOffset() { return m_camTiltOffset; };
-    int getCamTiltMinAngle() { return m_camTiltMinAngle; };
-    int getCamTiltMaxAngle() { return m_camTiltMaxAngle; };
-
-    int getRightWheelPin() { return m_rightWheelPin; };
-    int getRightWheelChannel() { return m_rightWheelChannel; };
-    int getRightWheelDirection() { return m_rightWheelDirection; };
-
-    int getLeftWheelPin() { return m_leftWheelPin; };
-    int getLeftWheelChannel() { return m_leftWheelChannel; };
-    int getLeftWheelDirection() { return m_leftWheelDirection; };
-private:
-    int m_fwChannel = 0;            // front wheels servo PCA channel
-    int m_fwOffset = 90;            // front wheels servo offset
-    int m_fwMinAngle = 50;          // front wheels minimal angle
-    int m_fwMaxAngle = 130;         // front wheels maximal angle
-
-    int m_camPanChannel = 1;            // camera pan servo PCA channel
-    int m_camPanOffset = 90;            // camera pan servo offset
-    int m_camPanMinAngle = 50;          // camera pan minimal angle
-    int m_camPanMaxAngle = 130;         // camera pan maximal angle
-
-    int m_camTiltChannel = 2;           // camera tilt servo PCA channel
-    int m_camTiltOffset = 90;           // camera tilt servo offset
-    int m_camTiltMinAngle = 50;         // camera tilt minimal angle
-    int m_camTiltMaxAngle = 130;        // camera tilt maximal angle
-
-    int m_rightWheelPin = 2;             // right wheel wiringPi pin
-    int m_rightWheelChannel = 4;         // right wheel PCA channel
-    int m_rightWheelDirection = 0;       // right wheel forward direction
-
-    int m_leftWheelPin = 0;             // left wheel wiringPi pin
-    int m_leftWheelChannel = 5;         // left wheel PCA channel
-    int m_leftWheelDirection = 0;       // left wheel forward direction
-};
-
 class RobotApp {
 public:
     RobotApp();                         // constructor
@@ -80,6 +32,17 @@ public:
     void setCamTilt(int s);             // sets the camera tilt
     void screenshot();                  // creates screenshot
     void test(int s);                   // runs selected test script
+    void calibration();                 // setups calibration
+    void calibration_ok();              // confirms calibration
+    void calibration_camup();           // calibration camera up
+    void calibration_camdown();         // calibration camera down
+    void calibration_camleft();         // calibration camera left
+    void calibration_camright();        // calibration camera right
+    void calibration_fwleft();          // calibration front wheels left
+    void calibration_fwright();         // calibration front wheels right
+    void calibration_bwleft();          // calibration back wheels left
+    void calibration_bwright();         // calibration back wheels right
+
 
 private:
     Config config;                      // robot config
@@ -262,7 +225,153 @@ void RobotApp::test(int s) {
     }
 }
 
+// setups calibration
+void RobotApp::calibration()
+{
+    std::cout << ">>> calibration" << std::endl;
 
+    // set all servos to default position
+    setFWPos(0);
+    setCamPan(0);
+    setCamTilt(0);
+    // start the back wheels slowly forward
+    setBWStatus(1);
+    setSpeed(30);
+};
+
+
+// confirms calibration
+void RobotApp::calibration_ok()
+{
+    std::cout << ">>> calibration_ok" << std::endl;
+
+    // save config file
+    config.update();
+};
+
+// calibration camera up
+void RobotApp::calibration_camup()
+{
+    std::cout << ">>> calibration_camup" << std::endl;
+
+    // update config offset
+    config.setCamTiltOffset(config.getCamTiltOffset() + 1);
+    
+    // update servo offset
+    m_camTilt->setOffset(config.getCamTiltOffset());
+
+    // move the servo
+    setCamTilt(0);
+};
+
+// calibration camera down
+void RobotApp::calibration_camdown()
+{
+    std::cout << ">>> calibration_camdown" << std::endl;
+
+    // update config offset
+    config.setCamTiltOffset(config.getCamTiltOffset() - 1);
+
+    // update servo offset
+    m_camTilt->setOffset(config.getCamTiltOffset());
+
+    // move the servo
+    setCamTilt(0);
+};
+
+// calibration camera left
+void RobotApp::calibration_camleft()
+{
+    std::cout << ">>> calibration_camleft" << std::endl;
+
+    // update config offset
+    config.setCamPanOffset(config.getCamPanOffset() + 1);
+
+    // update servo offset
+    m_camPan->setOffset(config.getCamPanOffset());
+
+    // move the servo
+    setCamPan(0);
+};
+
+// calibration camera right
+void RobotApp::calibration_camright()
+{
+    std::cout << ">>> calibration_camright" << std::endl;
+
+    // update config offset
+    config.setCamPanOffset(config.getCamPanOffset() - 1);
+
+    // update servo offset
+    m_camPan->setOffset(config.getCamPanOffset());
+
+    // move the servo
+    setCamPan(0);
+};
+
+// calibration front wheels left
+void RobotApp::calibration_fwleft()
+{
+    std::cout << ">>> calibration_fwleft" << std::endl;
+
+    // update config offset
+    config.setFwOffset(config.getFwOffset() - 1);
+
+    // update servo offset
+    m_fw->setOffset(config.getFwOffset());
+
+    // move the servo
+    setFWPos(0);
+};
+
+// calibration front wheels right
+void RobotApp::calibration_fwright()
+{
+    std::cout << ">>> calibration_fwright" << std::endl;
+
+    // update config offset
+    config.setFwOffset(config.getFwOffset() + 1);
+
+    // update servo offset
+    m_fw->setOffset(config.getFwOffset());
+
+    // move the servo
+    setFWPos(0);
+};
+
+// calibration back wheels left
+void RobotApp::calibration_bwleft()
+{
+    /*
+    std::cout << ">>> calibration_camup" << std::endl;
+
+    // update config offset
+    config.setCamTiltOffset(config.getCamTiltOffset() + 1);
+
+    // update servo offset
+    m_camTilt->setOffset(config.getCamTiltOffset());
+
+    // move the servo
+    setCamTilt(0);
+    */
+};
+
+// calibration back wheels right
+void RobotApp::calibration_bwright()
+{
+    /*
+    std::cout << ">>> calibration_camup" << std::endl;
+
+    // update config offset
+    config.setCamTiltOffset(config.getCamTiltOffset() + 1);
+
+    // update servo offset
+    m_camTilt->setOffset(config.getCamTiltOffset());
+
+    // move the servo
+    setCamTilt(0);
+    */
+};
 
 /* Python binding */
 namespace py = pybind11;
@@ -282,7 +391,17 @@ PYBIND11_MODULE(RobotApp, m) {
         .def("setCamPan", &RobotApp::setCamPan, R"pbdoc(sets the camera pan -40 - 40.)pbdoc")
         .def("setCamTilt", &RobotApp::setCamTilt, R"pbdoc(sets the camera tilt -40 - 40.)pbdoc")
         .def("screenshot", &RobotApp::screenshot, R"pbdoc(creates screenshot.)pbdoc")
-        .def("test", &RobotApp::test, R"pbdoc(runs selected test script #.)pbdoc");
+        .def("test", &RobotApp::test, R"pbdoc(runs selected test script.)pbdoc")
+        .def("calibration", &RobotApp::calibration, R"pbdoc(setups servos for calibration.)pbdoc")
+        .def("calibration_ok", &RobotApp::calibration_ok, R"pbdoc(confirms calibration.)pbdoc")
+        .def("calibration_camup", &RobotApp::calibration_camup, R"pbdoc(calibration camera up.)pbdoc")
+        .def("calibration_camdown", &RobotApp::calibration_camdown, R"pbdoc(calibration camera down.)pbdoc")
+        .def("calibration_camleft", &RobotApp::calibration_camleft, R"pbdoc(calibration camera left.)pbdoc")
+        .def("calibration_camright", &RobotApp::calibration_camright, R"pbdoc(calibration camera right.)pbdoc")
+        .def("calibration_fwleft", &RobotApp::calibration_fwleft, R"pbdoc(calibration front wheels left.)pbdoc")
+        .def("calibration_fwright", &RobotApp::calibration_fwright, R"pbdoc(calibration front wheels right.)pbdoc")
+        .def("calibration_bwleft", &RobotApp::calibration_bwleft, R"pbdoc(calibration back wheels left.)pbdoc")
+        .def("calibration_bwright", &RobotApp::calibration_bwright, R"pbdoc(calibration back wheels right.)pbdoc");
 
 #ifdef VERSION_INFO
     m.attr("__version__") = VERSION_INFO;

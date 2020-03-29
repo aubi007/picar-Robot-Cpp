@@ -15,9 +15,7 @@ Calibration
 
 {% block content %}
   <script type="text/javascript">
-    run_action('camcali')
-    run_action('fwcali')
-    run_action('bwcali')
+    run_action('calibration')
     function run_action(value){
       var xmlHttp  = new XMLHttpRequest();
       var protocol  = window.location.protocol;
@@ -38,9 +36,7 @@ Calibration
       return xmlHttp.responseText;
     }
     function cali_ok(){
-      run_action('camcaliok');
-      run_action('fwcaliok');
-      run_action('bwcaliok');
+      run_action('calibration_ok');
       back();
       back();
     }

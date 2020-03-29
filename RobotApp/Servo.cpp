@@ -76,6 +76,12 @@ void Servo::write(int angle) {
 #endif
 }
 
+// adjusts the offset
+void Servo::setOffset(int offset)
+{
+	m_offset = offset;
+}
+
 
 int testServo () {
 #define ch 0 // kanal 

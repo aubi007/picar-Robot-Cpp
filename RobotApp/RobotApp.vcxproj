@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Config.cpp" />
     <ClCompile Include="Motor.cpp" />
     <ClCompile Include="PCA9685.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -166,6 +167,7 @@
     <ClCompile Include="Stream.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Config.h" />
     <ClInclude Include="Motor.h" />
     <ClInclude Include="PCA9685.h" />
     <ClInclude Include="RobotApp.h" />

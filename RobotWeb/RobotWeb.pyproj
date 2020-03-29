@@ -53,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="requirements.txt" />
-    <Content Include="RobotWeb\config" />
+    <Content Include="RobotWeb\config.txt" />
     <Content Include="RobotWeb\stream\__pycache__\lanefilter.cpython-35.pyc" />
     <Content Include="RobotWeb\stream\__pycache__\lanefilter2.cpython-35.pyc" />
     <Content Include="RobotWeb\stream\__pycache__\lanefilter3.cpython-35.pyc" />

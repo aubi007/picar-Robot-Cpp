@@ -1,0 +1,3 @@
+fwOffset=91
+camPanOffset=91
+camTiltOffset=91
