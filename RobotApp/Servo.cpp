@@ -78,9 +78,10 @@ void Servo::write(int angle) {
 
 
 int testServo () {
-	Servo servo(1, 0x40, 0, 0, 50, 130);
+#define ch 0 // kanal 
+	Servo servo(1, 0x40, ch, 0, 50, 130);
 
-	printf("Testing testing\n");
+	printf("Testing servo\n");
 	servo.write(90);
 
 	for (int i = 10; i < 170; i = i + 10) {
@@ -95,7 +96,7 @@ int testServo () {
 
 	printf("turning off servo\n");
 #ifdef __linux__ 
-	servo.m_pwm->setPWM(0, 0, 4096);
+	servo.m_pwm->setPWM(ch, 0, 4096);
 #endif
 	return 0;
 } 

@@ -5,6 +5,10 @@
 #include <time.h>
 #include "Stream.h"
 #include "Servo.h"
+#include "Motor.h"
+#ifdef __linux__ 
+#include <wiringPi.h>
+#endif
 
 #define _BUS_NUMBER 1
 #define _ADDRESS    0x40
@@ -30,21 +34,37 @@ public:
     int getCamTiltOffset() { return m_camTiltOffset; };
     int getCamTiltMinAngle() { return m_camTiltMinAngle; };
     int getCamTiltMaxAngle() { return m_camTiltMaxAngle; };
+
+    int getRightWheelPin() { return m_rightWheelPin; };
+    int getRightWheelChannel() { return m_rightWheelChannel; };
+    int getRightWheelDirection() { return m_rightWheelDirection; };
+
+    int getLeftWheelPin() { return m_leftWheelPin; };
+    int getLeftWheelChannel() { return m_leftWheelChannel; };
+    int getLeftWheelDirection() { return m_leftWheelDirection; };
 private:
-    int m_fwChannel = 0;            // front wheels servo channel
+    int m_fwChannel = 0;            // front wheels servo PCA channel
     int m_fwOffset = 90;            // front wheels servo offset
     int m_fwMinAngle = 50;          // front wheels minimal angle
     int m_fwMaxAngle = 130;         // front wheels maximal angle
 
-    int m_camPanChannel = 1;            // camera pan servo channel
+    int m_camPanChannel = 1;            // camera pan servo PCA channel
     int m_camPanOffset = 90;            // camera pan servo offset
     int m_camPanMinAngle = 50;          // camera pan minimal angle
     int m_camPanMaxAngle = 130;         // camera pan maximal angle
 
-    int m_camTiltChannel = 2;            // camera tilt servo channel
-    int m_camTiltOffset = 90;            // camera tilt servo offset
-    int m_camTiltMinAngle = 50;          // camera tilt minimal angle
-    int m_camTiltMaxAngle = 130;         // camera tilt maximal angle
+    int m_camTiltChannel = 2;           // camera tilt servo PCA channel
+    int m_camTiltOffset = 90;           // camera tilt servo offset
+    int m_camTiltMinAngle = 50;         // camera tilt minimal angle
+    int m_camTiltMaxAngle = 130;        // camera tilt maximal angle
+
+    int m_rightWheelPin = 2;             // right wheel wiringPi pin
+    int m_rightWheelChannel = 4;         // right wheel PCA channel
+    int m_rightWheelDirection = 0;       // right wheel forward direction
+
+    int m_leftWheelPin = 0;             // left wheel wiringPi pin
+    int m_leftWheelChannel = 5;         // left wheel PCA channel
+    int m_leftWheelDirection = 0;       // left wheel forward direction
 };
 
 class RobotApp {
@@ -68,6 +88,8 @@ private:
     Servo *m_fw;                        // front wheels servo
     Servo *m_camPan;                    // camera pan servo
     Servo *m_camTilt;                   // camera tilt servo
+    Motor *m_rightWheel;                // right wheel motor
+    Motor* m_leftWheel;                 // left wheel motor
 
 };
 
@@ -81,6 +103,14 @@ RobotApp::RobotApp() {
     m_status.cam_pan = 0;
     m_status.cam_tilt = 0;
 
+#ifdef __linux__ 
+    // initialize wiringPi
+    if (wiringPiSetup() == -1) {
+        printf("!!! wiringPi setup failed !");
+        return;
+    }
+#endif
+
     // init front wheels servo
     m_fw = new Servo(_BUS_NUMBER, _ADDRESS, config.getFwChannel(), config.getFwOffset(), config.getFwMinAngle(), config.getFwMaxAngle());
     m_fw->write(0);
@@ -92,6 +122,13 @@ RobotApp::RobotApp() {
     // init camera tilt
     m_camTilt = new Servo(_BUS_NUMBER, _ADDRESS, config.getCamTiltChannel(), config.getCamTiltOffset(), config.getCamTiltMinAngle(), config.getCamTiltMaxAngle());
     m_camTilt->write(0);
+
+    // init right wheel
+    m_rightWheel = new Motor(_BUS_NUMBER, _ADDRESS, config.getRightWheelPin(), config.getRightWheelChannel(), config.getRightWheelDirection());
+
+    // init left wheel
+    m_leftWheel = new Motor(_BUS_NUMBER, _ADDRESS, config.getLeftWheelPin(), config.getLeftWheelChannel(), config.getLeftWheelDirection());
+    
 }
 
 /* Destructor */
@@ -129,6 +166,25 @@ Frame RobotApp::getFrame()
 void RobotApp::setBWStatus(int s) {
     if ((s >= -1) && (s <= 1)) {
         m_status.bw_status = s;
+
+        if (s == -1) {
+            // go backwards
+            m_rightWheel->backward();
+            m_leftWheel->backward();
+            m_rightWheel->speed(m_status.speed);
+            m_leftWheel->speed(m_status.speed);
+        } else if (s == 0) {
+            // go stop
+            m_rightWheel->stop();
+            m_leftWheel->stop();
+        } else if (s == 1) {
+            // go forward
+            m_rightWheel->forward();
+            m_leftWheel->forward();
+            m_rightWheel->speed(m_status.speed);
+            m_leftWheel->speed(m_status.speed);
+        }
+
     }
     else {
         std::cerr << "### setBWStatus() invalid value <" << s << ">\n";
@@ -138,7 +194,14 @@ void RobotApp::setBWStatus(int s) {
 /* sets the speed */
 void RobotApp::setSpeed(int s) {
     if ((s >= 0) && (s <= 100)) {
+        // sets the speed to the status varaible
         m_status.speed = s;
+        
+        // if the motors are running, adjust the speed
+        if (m_status.bw_status != 0) {
+            m_rightWheel->speed(m_status.speed);
+            m_leftWheel->speed(m_status.speed);
+        }
     }
     else {
         std::cerr << "### setSpeed() invalid value <" << s << ">\n";

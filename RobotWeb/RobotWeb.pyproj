@@ -33,19 +33,6 @@
   <ItemGroup>
     <Compile Include="manage.py" />
     <Compile Include="RobotWeb\bot\bot.py" />
-    <Compile Include="RobotWeb\bot\__init__.py" />
-    <Compile Include="RobotWeb\driver\back_wheels.py" />
-    <Compile Include="RobotWeb\driver\camera.py" />
-    <Compile Include="RobotWeb\driver\filedb.py" />
-    <Compile Include="RobotWeb\driver\front_wheels.py" />
-    <Compile Include="RobotWeb\driver\PCF8591.py" />
-    <Compile Include="RobotWeb\driver\SunFounder_PCA9685\PCA9685.py" />
-    <Compile Include="RobotWeb\driver\SunFounder_PCA9685\Servo.py" />
-    <Compile Include="RobotWeb\driver\SunFounder_PCA9685\__init__.py" />
-    <Compile Include="RobotWeb\driver\SunFounder_TB6612\example\speed_increase.py" />
-    <Compile Include="RobotWeb\driver\SunFounder_TB6612\TB6612.py" />
-    <Compile Include="RobotWeb\driver\SunFounder_TB6612\__init__.py" />
-    <Compile Include="RobotWeb\driver\__init__.py" />
     <Compile Include="RobotWeb\stream\lanefilter.py" />
     <Compile Include="RobotWeb\stream\lanefilter2.py" />
     <Compile Include="RobotWeb\stream\lanefilter3.py" />
@@ -66,42 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="requirements.txt" />
-    <Content Include="RobotWeb\bot\lanefilter.pyc" />
-    <Content Include="RobotWeb\bot\lanefilter2.pyc" />
-    <Content Include="RobotWeb\bot\lanefilter3.pyc" />
-    <Content Include="RobotWeb\bot\__init__.pyc" />
-    <Content Include="RobotWeb\bot\__pycache__\bot.cpython-35.pyc" />
-    <Content Include="RobotWeb\bot\__pycache__\lanefilter.cpython-35.pyc" />
-    <Content Include="RobotWeb\bot\__pycache__\lanefilter2.cpython-35.pyc" />
-    <Content Include="RobotWeb\bot\__pycache__\lanefilter3.cpython-35.pyc" />
-    <Content Include="RobotWeb\bot\__pycache__\__init__.cpython-35.pyc" />
     <Content Include="RobotWeb\config" />
-    <Content Include="RobotWeb\driver\camera.pyc" />
-    <Content Include="RobotWeb\driver\main.pyc" />
-    <Content Include="RobotWeb\driver\stream.pyc" />
-    <Content Include="RobotWeb\driver\SunFounder_PCA9685\.git" />
-    <Content Include="RobotWeb\driver\SunFounder_PCA9685\.gitignore" />
-    <Content Include="RobotWeb\driver\SunFounder_PCA9685\LICENSE" />
-    <Content Include="RobotWeb\driver\SunFounder_PCA9685\README.md" />
-    <Content Include="RobotWeb\driver\SunFounder_PCA9685\show" />
-    <Content Include="RobotWeb\driver\SunFounder_PCA9685\__pycache__\PCA9685.cpython-35.pyc" />
-    <Content Include="RobotWeb\driver\SunFounder_PCA9685\__pycache__\Servo.cpython-35.pyc" />
-    <Content Include="RobotWeb\driver\SunFounder_PCA9685\__pycache__\__init__.cpython-35.pyc" />
-    <Content Include="RobotWeb\driver\SunFounder_TB6612\.gitignore" />
-    <Content Include="RobotWeb\driver\SunFounder_TB6612\LICENSE" />
-    <Content Include="RobotWeb\driver\SunFounder_TB6612\README.md" />
-    <Content Include="RobotWeb\driver\SunFounder_TB6612\show" />
-    <Content Include="RobotWeb\driver\SunFounder_TB6612\__pycache__\TB6612.cpython-35.pyc" />
-    <Content Include="RobotWeb\driver\SunFounder_TB6612\__pycache__\__init__.cpython-35.pyc" />
-    <Content Include="RobotWeb\driver\__init__.pyc" />
-    <Content Include="RobotWeb\driver\__pycache__\back_wheels.cpython-35.pyc" />
-    <Content Include="RobotWeb\driver\__pycache__\camera.cpython-35.pyc" />
-    <Content Include="RobotWeb\driver\__pycache__\filedb.cpython-35.pyc" />
-    <Content Include="RobotWeb\driver\__pycache__\front_wheels.cpython-35.pyc" />
-    <Content Include="RobotWeb\driver\__pycache__\main.cpython-35.pyc" />
-    <Content Include="RobotWeb\driver\__pycache__\PCF8591.cpython-35.pyc" />
-    <Content Include="RobotWeb\driver\__pycache__\stream.cpython-35.pyc" />
-    <Content Include="RobotWeb\driver\__pycache__\__init__.cpython-35.pyc" />
     <Content Include="RobotWeb\stream\__pycache__\lanefilter.cpython-35.pyc" />
     <Content Include="RobotWeb\stream\__pycache__\lanefilter2.cpython-35.pyc" />
     <Content Include="RobotWeb\stream\__pycache__\lanefilter3.cpython-35.pyc" />
@@ -135,14 +87,6 @@
   <ItemGroup>
     <Folder Include="RobotWeb\" />
     <Folder Include="RobotWeb\bot\" />
-    <Folder Include="RobotWeb\bot\__pycache__\" />
-    <Folder Include="RobotWeb\driver\" />
-    <Folder Include="RobotWeb\driver\SunFounder_PCA9685\" />
-    <Folder Include="RobotWeb\driver\SunFounder_PCA9685\__pycache__\" />
-    <Folder Include="RobotWeb\driver\SunFounder_TB6612\" />
-    <Folder Include="RobotWeb\driver\SunFounder_TB6612\example\" />
-    <Folder Include="RobotWeb\driver\SunFounder_TB6612\__pycache__\" />
-    <Folder Include="RobotWeb\driver\__pycache__\" />
     <Folder Include="RobotWeb\stream\" />
     <Folder Include="RobotWeb\stream\__pycache__\" />
     <Folder Include="RobotWeb\templates\" />

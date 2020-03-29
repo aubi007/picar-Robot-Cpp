@@ -17,6 +17,10 @@ MESSAGE( " *** PYTHON_INCLUDE_DIRS : " ${PYTHON_INCLUDE_DIRS} )
 MESSAGE( " *** PYTHON_LIBRARIES : " ${PYTHON_LIBRARIES} )
 
 find_package(pybind11 CONFIG REQUIRED)
+MESSAGE( " *** pybind11_LIBRARIES : " ${pybind11_LIBRARIES} )
+
+find_library(wiringPi_LIB wiringPi)
+MESSAGE( " *** wiringPi_LIB : " ${wiringPi_LIB} )
 
 #**************************************************************************************************
 # Include **************************************************************************************************
@@ -33,6 +37,7 @@ SET(SOURCES
   ${CMAKE_CURRENT_DIR}Stream.cpp
   ${CMAKE_CURRENT_DIR}PCA9685.cpp
   ${CMAKE_CURRENT_DIR}Servo.cpp
+  ${CMAKE_CURRENT_DIR}Motor.cpp
 )
 
 #**************************************************************************************************
@@ -49,7 +54,7 @@ LINK_DIRECTORIES(
 # Make configuration
 #**************************************************************************************************
 add_library(RobotApp SHARED ${SOURCES})
-target_link_libraries(RobotApp ${PYTHON_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries(RobotApp ${PYTHON_LIBRARIES} ${OpenCV_LIBS} ${wiringPi_LIB})
 SET_TARGET_PROPERTIES(RobotApp PROPERTIES PREFIX "")
 
 install(TARGETS RobotApp DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../RobotWeb)

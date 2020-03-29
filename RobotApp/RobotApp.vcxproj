@@ -154,24 +154,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="readme.md" />
-    <None Include="setup.py" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="Motor.cpp" />
     <ClCompile Include="PCA9685.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="RobotApp.cpp" />
     <ClCompile Include="Servo.cpp" />
     <ClCompile Include="Stream.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Motor.h" />
     <ClInclude Include="PCA9685.h" />
     <ClInclude Include="RobotApp.h" />
     <ClInclude Include="Servo.h" />
     <ClInclude Include="Stream.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
