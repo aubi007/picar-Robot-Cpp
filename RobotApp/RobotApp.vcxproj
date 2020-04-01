@@ -164,15 +164,14 @@
     </ClCompile>
     <ClCompile Include="RobotApp.cpp" />
     <ClCompile Include="Servo.cpp" />
+    <ClCompile Include="Scripts.cpp" />
     <ClCompile Include="Stream.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Config.h" />
     <ClInclude Include="Motor.h" />
     <ClInclude Include="PCA9685.h" />
     <ClInclude Include="RobotApp.h" />
     <ClInclude Include="Servo.h" />
-    <ClInclude Include="Stream.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />

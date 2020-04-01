@@ -1,4 +1,4 @@
-#include "Config.h"
+#include "RobotApp.h"
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -35,6 +35,9 @@ Config::Config()
     m_leftWheelChannel = 5;         // left wheel PCA channel
     m_leftWheelDirection = 0;       // left wheel forward direction
 
+    m_wheelbase = 140;              // wheelbase in mm
+    m_100tickdist50 = 1820;      // distance (mm) the car moves in 100 ticks = 10 seconds on speed 50 - calibration value
+
     // read the configuration from a config file
     cout << ">>> Reading the config from file " << CONFIGFILE << endl;
 
@@ -55,12 +58,14 @@ Config::Config()
         } else if (line.find("camPanOffset") != string::npos) {
             cout << ">>> camPanOffset " << sin.str() << endl;
             sin >> m_camPanOffset;
-        }
-        else if (line.find("camTiltOffset") != string::npos) {
+        } else if (line.find("camTiltOffset") != string::npos) {
             cout << ">>> camTiltOffset " << sin.str() << endl;
             sin >> m_camTiltOffset;
+        } else if (line.find("100tickdist50") != string::npos) {
+            cout << ">>> 100tickdist50 " << sin.str() << endl;
+            sin >> m_100tickdist50;
         }
-    
+        
         sin.clear();
     }
 
@@ -77,10 +82,14 @@ void Config::update()
     // open the config file
     ofstream configfile(CONFIGFILE);  // config file input stream
 
+    configfile << "# servo offset configuration" << endl;
     configfile << "fwOffset=" << m_fwOffset << endl;
     configfile << "camPanOffset=" << m_camPanOffset << endl;
     configfile << "camTiltOffset=" << m_camTiltOffset << endl;
 
+    configfile << "# distance (mm) the car goes in 100 ticks (10 seconds) at half speed" << endl;
+    configfile << "100tickdist50=" << m_100tickdist50 << endl;
+    
     configfile.close();
 }
 
@@ -107,6 +116,10 @@ int Config::getRightWheelDirection() { return m_rightWheelDirection; };
 int Config::getLeftWheelPin() { return m_leftWheelPin; };
 int Config::getLeftWheelChannel() { return m_leftWheelChannel; };
 int Config::getLeftWheelDirection() { return m_leftWheelDirection; };
+
+int Config::getWheelbase() { return m_wheelbase; };
+int Config::get100tickdist50() { return m_100tickdist50; };
+
 
 // setters
 void Config::setFwOffset(int off) { m_fwOffset = off; };

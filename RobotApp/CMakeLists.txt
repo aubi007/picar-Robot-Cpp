@@ -39,6 +39,7 @@ SET(SOURCES
   ${CMAKE_CURRENT_DIR}PCA9685.cpp
   ${CMAKE_CURRENT_DIR}Servo.cpp
   ${CMAKE_CURRENT_DIR}Motor.cpp
+  ${CMAKE_CURRENT_DIR}Scripts.cpp
 )
 
 #**************************************************************************************************

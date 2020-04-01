@@ -12,14 +12,16 @@
 #define _MAX_PULSE_WIDTH 2400
 #define _DEFAULT_PULSE_WIDTH 1500
 #define _FREQUENCY 60
-#define _DEBUG 1
+//#define _DEBUG 1
 
 using namespace std;
 
 // constructor
 Servo::Servo(int bus, int address, int channel, int offset, int minAngle, int maxAngle) {
 
+#ifdef _DEBUG
 	printf(">>> Servo init bus %d address %d, channel %d\n", bus, address, channel);
+#endif // _DEBUG
 
 	// set the properties
 	m_minAngle = minAngle;				// minimal servo angle
@@ -44,7 +46,10 @@ Servo::Servo(int bus, int address, int channel, int offset) : Servo(bus, address
 
 // destructor
 Servo::~Servo() {
+#ifdef _DEBUG
 	printf(">>> Servo channel %d destroy \n", m_channel);
+#endif
+
 #ifdef __linux__ 
 	delete m_pwm;
 #endif
@@ -62,7 +67,9 @@ int Servo::angleToAnalog(int angle) {
 
 	// calculate the analog value
     int analog_value = (float)pulse_wide / 1000000 * m_frequency * 4096;
-    printf (">>> For angle %d analog_value %d\n", angle, analog_value);
+#ifdef _DEBUG
+	printf(">>> For angle %d analog_value %d\n", angle, analog_value);
+#endif // _DEBUG
 
     return (analog_value);
 }

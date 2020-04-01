@@ -1,4 +1,4 @@
-{% load static %}
+﻿{% load static %}
 <!doctype html>
 <html>
   <head>
@@ -72,6 +72,18 @@
         </div>
       </div>
       <br>
+      <div id="scriptbar">
+          Script:
+            <select id="script" name="Script">
+                <option value="1">Circle</option>
+                <option value="2">Snail</option>
+            </select>
+          <input type="text" id="parameter1" name="Parameter1">
+          <input type="text" id="parameter2" name="Parameter2">
+          <button type="button" onclick="run_script('runscript')">Start</button>
+          <button type="button" onclick="run_action('stopscript')">Stop</button>
+          <button type="button" onclick="run_action('screenshot')">Screenshot</button>
+      </div>
     </div>
     <script type="text/javascript">
       run_action('bwready');
@@ -79,6 +91,19 @@
       run_action('camready');
       var allowed = true;
 
+      function run_script(value){
+        var xmlHttp  = new XMLHttpRequest();
+        var protocol  = window.location.protocol;
+        var host      = window.location.host;
+        var pathname = window.location.pathname;
+        var script = document.getElementById("script").value;
+        var parameter1 = document.getElementById("parameter1").value;
+        var parameter2 = document.getElementById("parameter2").value;
+        url = protocol + "//" + host + pathname + "?action" + "=" + value + "&script" + "=" + script + "&parameter1" + "=" + parameter1 + "&parameter2" + "=" + parameter2;
+        xmlHttp.open( "GET", url, false );
+        xmlHttp.send( null );
+        return xmlHttp.responseText;
+      }
       function run_action(value){
         var xmlHttp  = new XMLHttpRequest();
         var protocol  = window.location.protocol;
@@ -160,8 +185,11 @@
           case '5':
             set_speed('100')
             break;
+          case '9':
+        	run_action('stopscript')
+        	break;
           case '0':
-        	run_action('test')
+        	run_action('runscript')
         	break;
           case ' ':		// numpad enter 
         	run_action('screenshot')

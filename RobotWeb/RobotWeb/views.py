@@ -77,11 +77,19 @@ def run(request):
 		elif action == 'camdown':
 			bot.setCamTilt(-20)
 		
-		# ================ test commands =============
+		# ================ automation commands =============
 		elif action == 'screenshot':
 			bot.screenshot()
-		elif action == 'test':
-			bot.test(1)
+		elif action == 'stopscript':
+			bot.stop()
+		elif action == 'runscript':
+			script = int(request.GET['script'])
+			parameter1 = request.GET['parameter1']
+			parameter2 = request.GET['parameter2']
+			#print ('>>> Start Script %d' % script)
+			#print ('>>> parameter1 "%s"' % parameter1)
+			#print ('>>> parameter2 "%s"' % parameter2)
+			bot.run(script, parameter1, parameter2)
 			
 	# ================ Speed =================	
 	if 'speed' in request.GET:

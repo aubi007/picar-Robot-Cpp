@@ -1,61 +1,14 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include <iostream>
-#include <stdio.h>
-#include <time.h>
-#include "Config.h"
-#include "Stream.h"
-#include "Servo.h"
-#include "Motor.h"
+
+#include "RobotApp.h"
+
 #ifdef __linux__ 
 #include <wiringPi.h>
 #endif
 
 #define _BUS_NUMBER 1
 #define _ADDRESS    0x40
-
-struct Frame {
-    std::vector<uchar> m_data;          // JPEG image as uchar vector (python list)
-    clock_t m_ts;                       // frame capture timestamp
-};
-
-class RobotApp {
-public:
-    RobotApp();                         // constructor
-    ~RobotApp();                        // destructor
-    Frame getFrame();                   // gets the most current frame as a JPEG image
-    void setBWStatus(int s);            // sets back wheel status
-    void setSpeed(int s);               // sets the speed
-    void setFWPos(int s);               // sets front wheel position
-    void camReady();                    // moves the camera to initial position
-    void setCamPan(int s);              // sets the camera pan
-    void setCamTilt(int s);             // sets the camera tilt
-    void screenshot();                  // creates screenshot
-    void test(int s);                   // runs selected test script
-    void calibration();                 // setups calibration
-    void calibration_ok();              // confirms calibration
-    void calibration_camup();           // calibration camera up
-    void calibration_camdown();         // calibration camera down
-    void calibration_camleft();         // calibration camera left
-    void calibration_camright();        // calibration camera right
-    void calibration_fwleft();          // calibration front wheels left
-    void calibration_fwright();         // calibration front wheels right
-    void calibration_bwleft();          // calibration back wheels left
-    void calibration_bwright();         // calibration back wheels right
-
-
-private:
-    Config config;                      // robot config
-    Stream m_stream;                    // video stream class
-    RobotStatus m_status;               // robot status structure
-    Servo *m_fw;                        // front wheels servo
-    Servo *m_camPan;                    // camera pan servo
-    Servo *m_camTilt;                   // camera tilt servo
-    Motor *m_rightWheel;                // right wheel motor
-    Motor* m_leftWheel;                 // left wheel motor
-
-};
-
 
 /* Constructor */
 RobotApp::RobotApp() {
@@ -65,6 +18,8 @@ RobotApp::RobotApp() {
     m_status.fw_pos = 0;
     m_status.cam_pan = 0;
     m_status.cam_tilt = 0;
+    m_script = NULL;
+    m_thread = NULL;
 
 #ifdef __linux__ 
     // initialize wiringPi
@@ -75,22 +30,22 @@ RobotApp::RobotApp() {
 #endif
 
     // init front wheels servo
-    m_fw = new Servo(_BUS_NUMBER, _ADDRESS, config.getFwChannel(), config.getFwOffset(), config.getFwMinAngle(), config.getFwMaxAngle());
+    m_fw = new Servo(_BUS_NUMBER, _ADDRESS, m_config.getFwChannel(), m_config.getFwOffset(), m_config.getFwMinAngle(), m_config.getFwMaxAngle());
     m_fw->write(0);
 
     // init camera pan servo
-    m_camPan = new Servo(_BUS_NUMBER, _ADDRESS, config.getCamPanChannel(), config.getCamPanOffset(), config.getCamPanMinAngle(), config.getCamPanMaxAngle());
+    m_camPan = new Servo(_BUS_NUMBER, _ADDRESS, m_config.getCamPanChannel(), m_config.getCamPanOffset(), m_config.getCamPanMinAngle(), m_config.getCamPanMaxAngle());
     m_camPan->write(0);
 
     // init camera tilt
-    m_camTilt = new Servo(_BUS_NUMBER, _ADDRESS, config.getCamTiltChannel(), config.getCamTiltOffset(), config.getCamTiltMinAngle(), config.getCamTiltMaxAngle());
+    m_camTilt = new Servo(_BUS_NUMBER, _ADDRESS, m_config.getCamTiltChannel(), m_config.getCamTiltOffset(), m_config.getCamTiltMinAngle(), m_config.getCamTiltMaxAngle());
     m_camTilt->write(0);
 
     // init right wheel
-    m_rightWheel = new Motor(_BUS_NUMBER, _ADDRESS, config.getRightWheelPin(), config.getRightWheelChannel(), config.getRightWheelDirection());
+    m_rightWheel = new Motor(_BUS_NUMBER, _ADDRESS, m_config.getRightWheelPin(), m_config.getRightWheelChannel(), m_config.getRightWheelDirection());
 
     // init left wheel
-    m_leftWheel = new Motor(_BUS_NUMBER, _ADDRESS, config.getLeftWheelPin(), config.getLeftWheelChannel(), config.getLeftWheelDirection());
+    m_leftWheel = new Motor(_BUS_NUMBER, _ADDRESS, m_config.getLeftWheelPin(), m_config.getLeftWheelChannel(), m_config.getLeftWheelDirection());
     
 }
 
@@ -110,6 +65,12 @@ RobotApp::~RobotApp() {
         m_camTilt->write(0);
         delete m_camTilt;
     }
+}
+
+// gets the config class
+Config RobotApp::getConfig()
+{
+    return m_config;
 }
 
 Frame RobotApp::getFrame()
@@ -189,10 +150,11 @@ void RobotApp::camReady() {
 }
 
 /* sets the camera pan */
+/* due to the servo position the angle must be inverted so left is negative, right is positive */
 void RobotApp::setCamPan(int s) {
     if ((s >= -40) && (s <= 40)) {
-        m_status.cam_pan = s;
-        m_camPan->write(s);
+        m_status.cam_pan = -s;
+        m_camPan->write(-s);
     }
     else {
         std::cerr << "### setCamPan() invalid value <" << s << ">\n";
@@ -215,13 +177,59 @@ void RobotApp::screenshot() {
 // TODO: impl
 }
 
-/* runs selected test script */
-void RobotApp::test(int s) {
-    if ((s >= 1) && (s <= 3)) {
-        // TODO: Impl
+/* runs selected automation script */
+void RobotApp::run(int script, std::string param1, std::string param2) {
+    std::cout << ">>> run(" << script << ", " << param1 << ", " << param2 << ")" << std::endl;
+    if (script == 1) {
+        try {
+            // create the script class and pass parameters
+            m_script = new ScriptCircle(this, param1);
+
+            //Creating a thread to execute our task
+            m_thread = new std::thread([&]()
+                {
+                    m_script->run();
+                });
+        }
+        catch (const std::exception& e) {
+            std::cerr << "### run() failed: " << e.what() << std::endl;
+        }
+
+    } else if (script == 2) {
+        // snail move without params
+        m_script = new ScriptSnail(this);
+
+        //Creating a thread to execute our task
+        m_thread = new std::thread([&]()
+            {
+                m_script->run();
+            });
+
+        }
+
+    else {
+        std::cerr << "### run() invalid script <" << script << ">" << std::endl;
+    }
+}
+
+/* stops running automation script */
+void RobotApp::stop() {
+    std::cout << ">>> stop()" << std::endl;
+
+    if (m_script) {
+        // Stop the Task
+        m_script->stop();
+        
+        //Waiting for thread to join
+        m_thread->join();
+        
+        // clear values
+        m_script = NULL;
+        m_thread = NULL;
+        std::cout << ">>> Thread Joined" << std::endl;
     }
     else {
-        std::cerr << "### test() invalid value <" << s << ">\n";
+
     }
 }
 
@@ -246,7 +254,7 @@ void RobotApp::calibration_ok()
     std::cout << ">>> calibration_ok" << std::endl;
 
     // save config file
-    config.update();
+    m_config.update();
 };
 
 // calibration camera up
@@ -255,10 +263,10 @@ void RobotApp::calibration_camup()
     std::cout << ">>> calibration_camup" << std::endl;
 
     // update config offset
-    config.setCamTiltOffset(config.getCamTiltOffset() + 1);
+    m_config.setCamTiltOffset(m_config.getCamTiltOffset() + 1);
     
     // update servo offset
-    m_camTilt->setOffset(config.getCamTiltOffset());
+    m_camTilt->setOffset(m_config.getCamTiltOffset());
 
     // move the servo
     setCamTilt(0);
@@ -270,10 +278,10 @@ void RobotApp::calibration_camdown()
     std::cout << ">>> calibration_camdown" << std::endl;
 
     // update config offset
-    config.setCamTiltOffset(config.getCamTiltOffset() - 1);
+    m_config.setCamTiltOffset(m_config.getCamTiltOffset() - 1);
 
     // update servo offset
-    m_camTilt->setOffset(config.getCamTiltOffset());
+    m_camTilt->setOffset(m_config.getCamTiltOffset());
 
     // move the servo
     setCamTilt(0);
@@ -285,10 +293,10 @@ void RobotApp::calibration_camleft()
     std::cout << ">>> calibration_camleft" << std::endl;
 
     // update config offset
-    config.setCamPanOffset(config.getCamPanOffset() + 1);
+    m_config.setCamPanOffset(m_config.getCamPanOffset() + 1);
 
     // update servo offset
-    m_camPan->setOffset(config.getCamPanOffset());
+    m_camPan->setOffset(m_config.getCamPanOffset());
 
     // move the servo
     setCamPan(0);
@@ -300,10 +308,10 @@ void RobotApp::calibration_camright()
     std::cout << ">>> calibration_camright" << std::endl;
 
     // update config offset
-    config.setCamPanOffset(config.getCamPanOffset() - 1);
+    m_config.setCamPanOffset(m_config.getCamPanOffset() - 1);
 
     // update servo offset
-    m_camPan->setOffset(config.getCamPanOffset());
+    m_camPan->setOffset(m_config.getCamPanOffset());
 
     // move the servo
     setCamPan(0);
@@ -315,10 +323,10 @@ void RobotApp::calibration_fwleft()
     std::cout << ">>> calibration_fwleft" << std::endl;
 
     // update config offset
-    config.setFwOffset(config.getFwOffset() - 1);
+    m_config.setFwOffset(m_config.getFwOffset() - 1);
 
     // update servo offset
-    m_fw->setOffset(config.getFwOffset());
+    m_fw->setOffset(m_config.getFwOffset());
 
     // move the servo
     setFWPos(0);
@@ -330,10 +338,10 @@ void RobotApp::calibration_fwright()
     std::cout << ">>> calibration_fwright" << std::endl;
 
     // update config offset
-    config.setFwOffset(config.getFwOffset() + 1);
+    m_config.setFwOffset(m_config.getFwOffset() + 1);
 
     // update servo offset
-    m_fw->setOffset(config.getFwOffset());
+    m_fw->setOffset(m_config.getFwOffset());
 
     // move the servo
     setFWPos(0);
@@ -391,7 +399,8 @@ PYBIND11_MODULE(RobotApp, m) {
         .def("setCamPan", &RobotApp::setCamPan, R"pbdoc(sets the camera pan -40 - 40.)pbdoc")
         .def("setCamTilt", &RobotApp::setCamTilt, R"pbdoc(sets the camera tilt -40 - 40.)pbdoc")
         .def("screenshot", &RobotApp::screenshot, R"pbdoc(creates screenshot.)pbdoc")
-        .def("test", &RobotApp::test, R"pbdoc(runs selected test script.)pbdoc")
+        .def("run", &RobotApp::run, R"pbdoc(runs selected automation script.)pbdoc")
+        .def("stop", &RobotApp::stop, R"pbdoc(stops running automation script.)pbdoc")
         .def("calibration", &RobotApp::calibration, R"pbdoc(setups servos for calibration.)pbdoc")
         .def("calibration_ok", &RobotApp::calibration_ok, R"pbdoc(confirms calibration.)pbdoc")
         .def("calibration_camup", &RobotApp::calibration_camup, R"pbdoc(calibration camera up.)pbdoc")

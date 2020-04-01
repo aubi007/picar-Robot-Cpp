@@ -8,7 +8,7 @@
 
 // defaults
 #define _FREQUENCY 60
-#define _DEBUG 1
+//#define _DEBUG 1
 
 using namespace std;
 
@@ -16,7 +16,9 @@ using namespace std;
 // constructor
 Motor::Motor(int bus, int address, int pin, int channel, int direction) {
 
+#ifdef _DEBUG
 	printf(">>> Motor init bus %d address %d, channel %d\n", bus, address, channel);
+#endif // _DEBUG
 
 	// set the properties
 	m_frequency = _FREQUENCY;			// pca frequency
@@ -43,7 +45,10 @@ Motor::Motor(int bus, int address, int pin, int channel, int direction) {
 
 // destructor
 Motor::~Motor() {
+#ifdef _DEBUG
 	printf(">>> Motor channel %d destroy \n", m_channel);
+#endif
+
 #ifdef __linux__ 
 	speed(0);		// stop the motor
 	delete m_pwm;
@@ -55,11 +60,15 @@ void Motor::speed(int speed)
 {
 	if (speed < 0) speed = 0;
 	if (speed > 100) speed = 100;
+#ifdef _DEBUG
 	printf(">>> Motor %d speed %d\n", m_pin, speed);
+#endif
 	m_speed = speed;
 
 	int analog_value = (speed / 100.0) * 4095;
+#ifdef _DEBUG
 	printf(">>> Analog value %d\n", analog_value);
+#endif
 
 #ifdef __linux__ 
 	m_pwm->setPWM(m_channel, 0, analog_value);
@@ -69,7 +78,7 @@ void Motor::speed(int speed)
 // changes direction to forward
 void Motor::forward()
 {
-	printf(">>> Motor %d direction %d\n", m_pin, m_directionFwd);
+//	printf(">>> Motor %d direction %d\n", m_pin, m_directionFwd);
 	m_direction = m_directionFwd;
 #ifdef __linux__ 
 	digitalWrite(m_pin, m_direction);
@@ -79,7 +88,7 @@ void Motor::forward()
 // changes direction to backward
 void Motor::backward()
 {
-	printf(">>> Motor %d direction %d\n", m_pin, m_directionBck);
+//	printf(">>> Motor %d direction %d\n", m_pin, m_directionBck);
 	m_direction = m_directionBck;
 #ifdef __linux__ 
 	digitalWrite(m_pin, m_direction);
@@ -89,7 +98,9 @@ void Motor::backward()
 // changes spped to stop
 void Motor::stop()
 {
+#ifdef _DEBUG
 	printf(">>> Motor %d stop\n", m_pin);
+#endif
 	m_speed = 0;
 
 #ifdef __linux__ 

@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Drivers">
+      <UniqueIdentifier>{1161d358-3ed4-4093-82ea-719714789029}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Drivers">
+      <UniqueIdentifier>{3a9f1898-1387-4fd0-a0b3-d2ddb5801ae4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RobotApp.cpp">
@@ -21,37 +27,34 @@
     <ClCompile Include="Stream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PCA9685.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Servo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Motor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Scripts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PCA9685.cpp">
+      <Filter>Source Files\Drivers</Filter>
+    </ClCompile>
+    <ClCompile Include="Motor.cpp">
+      <Filter>Source Files\Drivers</Filter>
+    </ClCompile>
+    <ClCompile Include="Servo.cpp">
+      <Filter>Source Files\Drivers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Stream.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RobotApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Motor.h">
+      <Filter>Header Files\Drivers</Filter>
+    </ClInclude>
     <ClInclude Include="PCA9685.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Drivers</Filter>
     </ClInclude>
     <ClInclude Include="Servo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Motor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Config.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Drivers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
